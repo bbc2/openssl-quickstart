@@ -1,0 +1,38 @@
+[ ca ]
+default_ca = ca_default # The default ca section
+
+[ ca_default ]
+dir            = .              # top dir
+database       = $dir/index.txt # index file
+new_certs_dir  = $dir/newcerts  # new certs dir
+
+certificate    = $dir/ca/ca.crt # CA cert
+private_key    = $dir/ca/ca.key # CA private key
+serial         = $dir/serial    # serial number file
+
+default_days   = 365            # how long to certify for
+default_md     = sha512         # hashing algorithm to use
+
+policy         = policy_any     # default policy
+email_in_dn    = no             # don't add the email into cert DN
+unique_subject = no             # allow several certs for the same subject
+
+name_opt       = ca_default     # subject name display option
+cert_opt       = ca_default     # certificate display option
+
+[ policy_any ]
+countryName            = optional
+stateOrProvinceName    = optional
+organizationName       = optional
+organizationalUnitName = optional
+commonName             = supplied
+emailAddress           = optional
+
+[ req ]
+default_bits       = 4096
+default_md         = sha512
+encrypt_key        = no
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+commonName = Common Name (eg, website domain name)

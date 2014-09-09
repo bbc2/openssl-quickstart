@@ -1,0 +1,10 @@
+[ req ]
+default_bits       = 4096
+default_md         = sha512
+encrypt_key        = no
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+countryName         = Country Name (2 letter code)
+countryName_default = FR
+commonName          = Common Name (eg, website domain name)
