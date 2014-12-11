@@ -2,6 +2,7 @@ CA_CONF=ca.cnf
 CRT_CONF=crt.cnf
 
 .PHONY: init ca ca_key_exists clean
+.PRECIOUS: %.key
 
 # OpenSSL requires database files to be initialized before it can process
 # signing requests with a CA.
@@ -16,7 +17,7 @@ ca:
 	@[ -d ca ] || mkdir ca
 	openssl req -new -nodes -x509 -days 3650 -out ca/ca.crt -keyout ca/ca.key \
 		-config "${CA_CONF}"
-	chmod go-rw ca/ca.key # so that OpenSSL does not remove it later
+	chmod go-rw ca/ca.key
 
 # Output a friendly error message if the CA key pair cannot be found.
 ca_key_exists:
