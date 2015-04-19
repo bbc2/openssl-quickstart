@@ -1,1 +1,6 @@
 *.key
+*.crt
+*.csr
+index.txt*
+newcerts
+serial*
