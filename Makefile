@@ -18,7 +18,7 @@ init:
 ca:
 	@[ -d ca ] || mkdir ca
 	${OPENSSL} req -new -nodes -x509 -days 3650 -out ca/ca.crt -keyout ca/ca.key \
-		-config "${CA_CONF}"
+		-config "${CA_CONF}" -extensions v3_ca
 	chmod go-rw ca/ca.key
 
 # Output a friendly error message if the CA key pair cannot be found.
@@ -34,12 +34,12 @@ ca_key_exists:
 # Generate a signing request.  Generate the key if it is not present.
 %.csr: %.key
 	$(eval SAN = $(shell bash -c 'read -p "${SAN_PROMPT} " san; echo $$san'))
-	${OPENSSL} req -new -key "$<" -out "$@" -config "${CRT_CONF}"
+	${OPENSSL} req -new -key "$<" -out "$@" -config "${CRT_CONF}" -extensions v3_req
 
 # Make sure `ca/ca.key` is present and process a signing request.
 %.crt: ca_key_exists init %.csr
-	${OPENSSL} ca -in "$*.csr" -out "$@" -config "${CRT_CONF}"
-
+	${OPENSSL} ca -in "$*.csr" -out "$@" -config "${CRT_CONF}" \
+		-extensions v3_req -extfile "${CRT_CONF}"
 # Clean working directory.  Be careful as this task removes all certificates,
 # keys and the database!
 clean:

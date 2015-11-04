@@ -12,6 +12,5 @@ commonName          = Common Name (eg, website domain name)
 
 [ v3_ca ]
 basicConstraints = CA:TRUE
-
-[ v3_user ]
-basicConstraints = CA:FALSE
+subjectKeyIdentifier=hash
+authorityKeyIdentifier=keyid:always,issuer
